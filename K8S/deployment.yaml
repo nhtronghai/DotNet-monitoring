@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: dotnet-app-deployment
 spec:
-  replicas: 1 # Set the desired number of replicas
+  replicas: 2 # Set the desired number of replicas
   selector:
     matchLabels:
       app: dotnet-app
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: dotnet-app
-          image: sevenajay/dotnet-monitoring:latest # Replace with your Docker image name
+          image: nhtronghai/dotnet-monitoring:latest # Replace with your Docker image name
           ports:
             - containerPort: 5000 # Expose the port specified in your Dockerfile
 
@@ -24,10 +24,11 @@ kind: Service
 metadata:
   name: dotnet-app-service
 spec:
+  type: LoadBalancer
   selector:
     app: dotnet-app
   ports:
     - protocol: TCP
-      port: 80 # Service port
-      targetPort: 5000 # Port in the container
-  type: NodePort # Use NodePort service type            
+      port: 3000 
+      targetPort: 5000
+              
